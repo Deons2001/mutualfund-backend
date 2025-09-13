@@ -22,6 +22,32 @@ app.use('/api/auth', authRoutes);
 app.use('/api/portfolio', portfolioRoutes);
 app.use('/api/funds', fundRoutes);
 
+
+app.get('/', (req, res) => {
+  res.status(200).json({
+    success: true,
+    message: 'Mutual Fund Portfolio Tracker API is running! 🚀',
+    timestamp: new Date().toISOString(),
+    version: '1.0.0',
+    documentation: {
+      authentication: {
+        signup: 'POST /api/auth/signup',
+        login: 'POST /api/auth/login'
+      },
+      portfolio: {
+        add: 'POST /api/portfolio/add',
+        list: 'GET /api/portfolio/list',
+        value: 'GET /api/portfolio/value'
+      },
+      funds: {
+        list: 'GET /api/funds',
+        nav: 'GET /api/funds/:schemeCode/nav',
+        history: 'GET /api/funds/history/:schemeCode'
+      }
+    }
+  });
+});
+
 app.use((err, req, res, next) => {
   console.error(err && err.stack ? err.stack : err);
   res.status(err.status || 500).json({ success: false, message: err.message || 'Server error' });
